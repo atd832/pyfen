@@ -1,2 +1,2 @@
 # pyfen
-png to FEN chess notation converter
+pgn to FEN chess notation converter

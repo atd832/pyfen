@@ -273,13 +273,26 @@ class Turn:
     def __init__(self, turn: str):
         self._t = turn
         self.turn = self._t.split(' ')
-        self.seq_no = self.turn[0]
+        # the sequence would be index in turns...
+        # self.seq_no = self.turn[0]
         self.white_move = Move(self.turn[1], 'w')
         self.black_move = Move(self.turn[2], 'b')
         # self.end_of_game
 
     def __str__(self):
         return self._t
+
+
+class PGN:
+    def __init__(self, pgn: str):
+        # TODO: strip comments...
+        # bracket format:
+        # 1. e4 {Best by test!} e5
+        # semicolon format:
+        # 1. e4; Best by test!
+        # 1... e5
+        self.pgn = pgn
+        self.turns = [Turn(t.strip()) for t in re.split(r'\d+[\.]', self.pgn) if t]
 
 
 class Board:
@@ -483,9 +496,9 @@ class Board:
 #   dfs?
 
 
-class PNGConverter:
+class pgnConverter:
     """
-    takes png
+    takes pgn
     outputs fen
     """
     pass
