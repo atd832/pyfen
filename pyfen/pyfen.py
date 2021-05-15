@@ -185,6 +185,7 @@ class Move:
         self.move = move
         self.player = player
         self.disambiguation = self.move.replace(str(self.piece), '').replace(str(self.destination), '')
+        # TODO: comments
 
     @property
     def short_castle(self):
@@ -291,6 +292,7 @@ class PGN:
         # semicolon format:
         # 1. e4; Best by test!
         # 1... e5
+        # TODO: game termination
         self.pgn = pgn
         self.turns = [Turn(t.strip()) for t in re.split(r'\d+[\.]', self.pgn) if t]
 
@@ -470,11 +472,6 @@ class Board:
             # disambiguation needed
             pass
 
-
-
-        # if it is viable moves for both pieces and there is no disambiguation
-        # error
-
         pass
 
 
@@ -490,13 +487,11 @@ class Board:
 #   check   Ra6+    any above with '+'  +$ ends with
 # disambiguating
 #   piece | original file | square
-# regex!
 
-# mapping a move sequence to a board state...
-#   dfs?
+# mapping a move sequence to a board state
 
 
-class pgnConverter:
+class PGNConverter:
     """
     takes pgn
     outputs fen
