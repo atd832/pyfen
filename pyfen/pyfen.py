@@ -281,11 +281,23 @@ class Turn:
     def __init__(self, turn: str):
         self._t = turn
         self.turn = self._t.split(' ')
-        # the sequence would be index in turns...
-        # self.seq_no = self.turn[0]
-        self.white_move = Move(self.turn[0], 'w')
-        self.black_move = Move(self.turn[1], 'b') if self.turn[1] else None
-        # self.end_of_game
+
+    @property
+    def white_move(self):
+        try:
+            m = Move(self.turn[0], 'w')
+        except IndexError:
+            m = Move('$', 'w')
+        return m
+
+    @property
+    def black_move(self):
+        try:
+            m = Move(self.turn[1], 'b')
+        except IndexError:
+            m = Move('$', 'b')
+        return m
+
 
     def __str__(self):
         return self._t
@@ -300,9 +312,17 @@ class PGN:
         # 1. e4; Best by test!
         # 1... e5
         # TODO: game termination
-        self.pgn = pgn
-        self.termination = search_for('|'.join(R), self.pgn)
+        self.raw_pgn = pgn
+        self.termination = search_for('|'.join(R), self.raw_pgn)
+        # FIXME: this is catching blank entries for black move
         self.turns = [Turn(t.strip()) for t in re.split(r'\d+[\.]', self.pgn) if t]
+
+    @property
+    def pgn(self):
+        if self.termination:
+            return self.raw_pgn.replace(self.termination, '')
+        else:
+            return self.raw_pgn
 
 
 class Board:
