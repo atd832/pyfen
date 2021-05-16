@@ -97,8 +97,16 @@ SQUARES = {
     'h8': [7, 7],
 }
 
+# other terminators?
+RESULTS = {
+    '0-1': 'black wins',
+    '1-0': 'white wins',
+    '1/2-1/2': 'draw'
+}
+
 S = list(SQUARES.keys())
 P = list(PIECES.keys())
+R = list(RESULTS.keys())
 
 
 def rook_moves(coord: list):
@@ -238,7 +246,6 @@ class Move:
 
         # FIXME: these should return the castling king sqs
         if self.check or self.mate:
-            print(self.move.rstrip(self.move[-1])[-2:])
             return search_for('|'.join(S), self.move.rstrip(self.move[-1])[-2:])
         # still not accounting yet for disambiguation
         return search_for('|'.join(S), self.move[-2:])
@@ -276,8 +283,8 @@ class Turn:
         self.turn = self._t.split(' ')
         # the sequence would be index in turns...
         # self.seq_no = self.turn[0]
-        self.white_move = Move(self.turn[1], 'w')
-        self.black_move = Move(self.turn[2], 'b')
+        self.white_move = Move(self.turn[0], 'w')
+        self.black_move = Move(self.turn[1], 'b') if self.turn[1] else None
         # self.end_of_game
 
     def __str__(self):
@@ -294,6 +301,7 @@ class PGN:
         # 1... e5
         # TODO: game termination
         self.pgn = pgn
+        self.termination = search_for('|'.join(R), self.pgn)
         self.turns = [Turn(t.strip()) for t in re.split(r'\d+[\.]', self.pgn) if t]
 
 
