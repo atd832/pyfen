@@ -63,5 +63,8 @@ class TestPGN:
     pgn = PGN(_)
 
     def test_pgn(self):
+        expected_turn_25 = Turn('Rhg1 Be8')
+
         assert self.pgn.termination == '1-0'
+        assert self.pgn.turns[24] == expected_turn_25
 

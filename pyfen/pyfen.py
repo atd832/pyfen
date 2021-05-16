@@ -298,9 +298,11 @@ class Turn:
             m = Move('$', 'b')
         return m
 
-
     def __str__(self):
         return self._t
+
+    def __eq__(self, other):
+        return self.white_move == other.white_move and self.black_move == other.black_move
 
 
 class PGN:
