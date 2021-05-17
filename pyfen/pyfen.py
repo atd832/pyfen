@@ -428,7 +428,11 @@ class Board:
 
     def _update(self, move: Move):
         """ takes move and updates bitmaps """
+        # get bitmap
+        bitmap = self._bitmap(move.piece, move.player)
         # remove 1 from origin
+        origins = [bitmap[i, j] for i in range(0, 8) for j in range(0, 8) if bitmap[i, j] == 1]
+
         # to determine origin, find if destination is in
         # viable squares for that color piece
         # if more than one piece has access to destination:
@@ -453,7 +457,7 @@ class Board:
     #
     #     return list(viable)
 
-    def _bitmap(self, piece: "pieces", player: str):
+    def _bitmap(self, piece: "PIECES", player: str):
         w = {
             'R': self.white_rook,
             'N': self.white_knight,
