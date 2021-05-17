@@ -426,11 +426,17 @@ class Board:
                            [1, 1, 1, 1, 1, 1, 1, 1],
                            [0, 0, 0, 0, 0, 0, 0, 0]]
 
-    # def _update(self):
-    #     """  """
-    #     # remove 1 from current position
-    #     # move 1 to new position
-    #     pass
+    def _update(self, move: Move):
+        """ takes move and updates bitmaps """
+        # remove 1 from origin
+        # to determine origin, find if destination is in
+        # viable squares for that color piece
+        # if more than one piece has access to destination:
+        # consult disambiguation rank and file
+
+        # add one to destination
+
+        pass
 
     # TODO: one func for all pieces
     # def rook_viable_squares(self, bitmap):
@@ -465,10 +471,10 @@ class Board:
         }
 
         if player == 'w':
-            return w.get(piece) if w.get(piece) else self.white_pawn
+            return w.get(piece, self.white_pawn)
 
         if player == 'b':
-            return b.get(piece) if b.get(piece) else self.black_pawn
+            return b.get(piece, self.black_pawn)
 
     # return list of viable squares
     def _viable_moves(self, pos: list, piece: str):
